@@ -1,3 +1,7 @@
+.idea/
+WheelOfFortune.iml
+target/
+
 # Compiled class file
 *.class
 
