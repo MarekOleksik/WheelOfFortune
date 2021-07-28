@@ -19,4 +19,24 @@ public class PlayerTest {
         });
     }
 
+    @Test
+    public void throwExceptionWhenNameIsOneSpace() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Player marek = new Player(" ");
+        });
+    }
+
+    @Test
+    public void throwExceptionWhenNameIsManySpaces() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Player marek = new Player("      ");
+        });
+    }
+
+    @Test
+    public void throwExceptionWhenNameIsNull() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Player marek = new Player(null);
+        });
+    }
 }

@@ -4,7 +4,13 @@ public class Player {
     private String name;
 
     public Player(String name) {
-        if (name.isEmpty()) throw new IllegalArgumentException("Empty value is passed.");
+        try {
+            if (name.trim().isEmpty()) {
+                throw new IllegalArgumentException("Empty value is passed.");
+            }
+        } catch (NullPointerException ex) {
+            throw new IllegalArgumentException("Null value is passed.");
+        }
         this.name = name;
     }
 
