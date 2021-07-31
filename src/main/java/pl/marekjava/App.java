@@ -7,6 +7,7 @@ import java.util.Scanner;
 // This is a main class of Wheel of Fortune game
 public class App {
     private static Scanner scan = new Scanner(System.in);
+    private static int ROUNDS = 4;
 
     public static void main(String[] args) {
 
@@ -20,8 +21,19 @@ public class App {
         List<Player> players = getNamesOfPlayers(numberOfPlayers);
         if (players == null) return;
 
+        playGame(players);
+
         // close Scanner
         scan.close();
+    }
+
+    private static void playGame(List<Player> players) {
+        for (int i = 1; i <= ROUNDS; i++) {
+            System.out.println("Rozpoczęła się runda " + i);
+            for (int j = 0; j < players.size(); j++) {
+                System.out.println("Tura gracza " + players.get(j));
+            }
+        }
     }
 
     private static List<Player> getNamesOfPlayers(Integer numberOfPlayers) {
