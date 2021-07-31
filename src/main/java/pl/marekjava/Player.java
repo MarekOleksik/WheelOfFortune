@@ -1,6 +1,5 @@
 package pl.marekjava;
 
-// Class Player, which represents a player of Wheel of Fortune game
 public class Player {
     private String name;
 
