@@ -7,7 +7,7 @@ import java.util.Scanner;
 // This is a main class of Wheel of Fortune game
 public class App {
     private static Scanner scan = new Scanner(System.in);
-    private static int ROUNDS = 4;
+    final static int ROUNDS = 4;
 
     public static void main(String[] args) {
 
@@ -23,7 +23,6 @@ public class App {
 
         playGame(players);
 
-        // close Scanner
         scan.close();
     }
 
