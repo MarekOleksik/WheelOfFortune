@@ -13,7 +13,7 @@ public class App {
         System.out.println("Witaj w Kole Fortuny");
 
         // Ask how many players will play
-        Integer numberOfPlayers = getNumberOfPlayers(scan);
+        Integer numberOfPlayers = getNumberOfPlayers();
         if (numberOfPlayers == null) return;
 
         // Add name of player to list of players
@@ -39,7 +39,7 @@ public class App {
         return players;
     }
 
-    private static Integer getNumberOfPlayers(Scanner scan) {
+    private static Integer getNumberOfPlayers() {
         int numberOfPlayers = 0;
         System.out.print("Podaj liczbę graczy: ");
         try {
