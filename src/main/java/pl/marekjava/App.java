@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// This is a main class of Wheel of Fortune game
 public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
@@ -13,11 +12,14 @@ public class App {
 
         System.out.println("Witaj w Kole Fortuny");
 
-        // Ask how many players will play
-        Integer numberOfPlayers = getNumberOfPlayers();
-        if (numberOfPlayers == null) return;
+        int numberOfPlayers = 0;
+        try {
+            numberOfPlayers = getNumberOfPlayers();
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
 
-        // Add name of player to list of players
         List<Player> players = getNamesOfPlayers(numberOfPlayers);
         if (players == null) return;
 
@@ -27,8 +29,10 @@ public class App {
     }
 
     private static void playGame(List<Player> players) {
+        PasswordManager pm = new PasswordManager();
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println("Rozpoczęła się runda " + i);
+            System.out.println(pm.getRandomPassword());
             for (int j = 0; j < players.size(); j++) {
                 System.out.println("Tura gracza " + players.get(j));
             }
@@ -50,18 +54,18 @@ public class App {
         return players;
     }
 
-    private static Integer getNumberOfPlayers() {
+    private static int getNumberOfPlayers() {
         int numberOfPlayers = 0;
         System.out.print("Podaj liczbę graczy: ");
         try {
             numberOfPlayers = Integer.parseInt(scan.nextLine());
+
         } catch (NumberFormatException ex) {
-            System.out.println("Ilość graczy musi być liczbą od 2 do 4.");
+            throw new IllegalArgumentException("Ilość graczy musi być liczbą od 2 do 4.");
         }
 
         if (numberOfPlayers < 2 || numberOfPlayers > 4) {
-            System.out.println("Ilość graczy powinna zmieścić się pomiędzy 2 a 4.");
-            return null;
+            throw new IllegalArgumentException("Ilość graczy powinna zmieścić się pomiędzy 2 a 4.");
         }
         return numberOfPlayers;
     }
