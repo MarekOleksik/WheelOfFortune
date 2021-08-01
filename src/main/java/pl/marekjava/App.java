@@ -12,12 +12,16 @@ public class App {
 
         System.out.println("Witaj w Kole Fortuny");
 
-        Integer numberOfPlayers = getNumberOfPlayers();
-        if (numberOfPlayers == -1) return;
+        int numberOfPlayers = 0;
+        try {
+            numberOfPlayers = getNumberOfPlayers();
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
 
         List<Player> players = getNamesOfPlayers(numberOfPlayers);
         if (players == null) return;
-
 
         playGame(players);
 
@@ -55,13 +59,13 @@ public class App {
         System.out.print("Podaj liczbę graczy: ");
         try {
             numberOfPlayers = Integer.parseInt(scan.nextLine());
+
         } catch (NumberFormatException ex) {
-            System.out.println("Ilość graczy musi być liczbą od 2 do 4.");
+            throw new IllegalArgumentException("Ilość graczy musi być liczbą od 2 do 4.");
         }
 
         if (numberOfPlayers < 2 || numberOfPlayers > 4) {
-            System.out.println("Ilość graczy powinna zmieścić się pomiędzy 2 a 4.");
-            return -1;
+            throw new IllegalArgumentException("Ilość graczy powinna zmieścić się pomiędzy 2 a 4.");
         }
         return numberOfPlayers;
     }

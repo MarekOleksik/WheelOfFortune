@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class PasswordManager {
-    List<String> passwords = new ArrayList<>();
+    private List<String> passwords = new ArrayList<>();
 
     public PasswordManager() {
         passwords.add("Apetyt rośnie w miarę jedzenia");
