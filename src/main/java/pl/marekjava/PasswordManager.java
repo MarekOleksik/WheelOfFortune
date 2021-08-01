@@ -21,11 +21,16 @@ public class PasswordManager {
 
     public String getRandomPassword() {
         Random r = new Random();
-        int randomItem = r.nextInt(passwords.size());
+        int randomItem;
+        try {
+            randomItem = r.nextInt(passwords.size());
+        } catch (Exception e) {
+            throw new IllegalStateException("Lista haseł nie może być pusta");
+        }
         String randomPassword = passwords.get(randomItem);
 
         int counter = 0;
-        while (usedPasswords.get(randomPassword) == true) {
+        while (usedPasswords.get(randomPassword)) {
             randomItem = r.nextInt(passwords.size());
             randomPassword = passwords.get(randomItem);
             counter++;
