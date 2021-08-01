@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// Test class, where I test methods in Player class
 public class PlayerTest {
     @Test
     public void isNameValidPrint() {
