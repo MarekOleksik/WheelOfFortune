@@ -80,4 +80,10 @@ public class PasswordManagerTest {
         assertTrue(pm.guessPassword("Elektryka prąd nie tyka"));
     }
 
+    @Test
+    public void isGuessUpperPassword() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        assertTrue(pm.guessPassword("EleKTryka Prąd nie Tyka"));
+    }
+
 }
