@@ -2,6 +2,7 @@ package pl.marekjava;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class App {
@@ -32,10 +33,35 @@ public class App {
         PasswordManager pm = new PasswordManager();
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println("Rozpoczęła się runda " + i);
-            System.out.println(pm.getRandomPassword());
+            String password = pm.getRandomPassword();
+            System.out.println(password);
             for (int j = 0; j < players.size(); j++) {
                 System.out.println("Tura gracza " + players.get(j));
+                String input = scan.nextLine();
+                if (input.length() == 1) {
+                    guessLetter(password, input);
+                } else {
+                    guessPassword(password, input);
+                }
             }
+        }
+    }
+
+    private static void guessPassword(String password, String input) {
+        System.out.println("Zgaduję hasło");
+        if (password.equalsIgnoreCase(input)) {
+            System.out.println("Hasło odgadnięte");
+        } else {
+            System.out.println("Niepoprawne hasło");
+        }
+    }
+
+    private static void guessLetter(String password, String input) {
+        System.out.println("Zgaduję literę");
+        if (password.toLowerCase().contains(input.toLowerCase())) {
+            System.out.println("Zgadnięta");
+        } else {
+            System.out.println("Taka litera nie występuje w haśle");
         }
     }
 
