@@ -5,6 +5,7 @@ import java.util.*;
 public class PasswordManager {
     private List<String> passwords = new ArrayList<>();
     private Map<String, Boolean> usedPasswords = new HashMap<>();
+    private String currentPassword;
 
     public PasswordManager() {
         passwords.add("Apetyt rośnie w miarę jedzenia");
@@ -37,6 +38,7 @@ public class PasswordManager {
             if (counter > passwords.size()) throw new IllegalStateException("Brak unikalnego hasła");
         }
         usedPasswords.put(randomPassword, true);
+        currentPassword = randomPassword;
 
         return randomPassword;
     }
@@ -51,5 +53,25 @@ public class PasswordManager {
 
     public int getSizeOfPasswords() {
         return passwords.size();
+    }
+
+    public int guessLetter(char letter) {
+        int counter = 0;
+        char[] lettersOnPassword = currentPassword.toLowerCase().toCharArray();
+        if (letter <= 90) letter += 32;
+        for (char c : lettersOnPassword) {
+            if (c == letter) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    protected void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    public boolean guessPassword(String password) {
+        return password.equalsIgnoreCase(currentPassword);
     }
 }
