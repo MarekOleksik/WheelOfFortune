@@ -2,12 +2,12 @@ package pl.marekjava;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
+    private static PasswordManager pm = new PasswordManager();
 
     public static void main(String[] args) {
 
@@ -30,7 +30,7 @@ public class App {
     }
 
     private static void playGame(List<Player> players) {
-        PasswordManager pm = new PasswordManager();
+
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println("Rozpoczęła się runda " + i);
             String password = pm.getRandomPassword();
@@ -41,15 +41,15 @@ public class App {
                 if (input.length() == 1) {
                     guessLetter(password, input);
                 } else {
-                    guessPassword(password, input);
+                    guessPassword(input);
                 }
             }
         }
     }
 
-    private static void guessPassword(String password, String input) {
+    private static void guessPassword(String input) {
         System.out.println("Zgaduję hasło");
-        if (password.equalsIgnoreCase(input)) {
+        if (pm.guessPassword(input)) {
             System.out.println("Hasło odgadnięte");
         } else {
             System.out.println("Niepoprawne hasło");
@@ -58,6 +58,7 @@ public class App {
 
     private static void guessLetter(String password, String input) {
         System.out.println("Zgaduję literę");
+        int countOfLetters = pm.guessLetter(input.charAt(0));
         if (password.toLowerCase().contains(input.toLowerCase())) {
             System.out.println("Zgadnięta");
         } else {
