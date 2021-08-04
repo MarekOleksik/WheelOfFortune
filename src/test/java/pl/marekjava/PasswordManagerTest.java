@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -86,4 +87,43 @@ public class PasswordManagerTest {
         assertTrue(pm.guessPassword("EleKTryka Prąd nie Tyka"));
     }
 
+    @Test
+    public void isCoveredPassword() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        assertTrue(pm.getObscuredPassword().equals("--------- ---- --- ----"));
+    }
+
+    @Test
+    public void isUnCoveredPasswordWithGuessLetter() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = new ArrayList<>();
+        corectGuesses.add('d');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("--------- ---D --- ----"));
+    }
+
+    @Test
+    public void isUnCoveredPasswordWithGuessUpperLetter() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = new ArrayList<>();
+        corectGuesses.add('D');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("--------- ---D --- ----"));
+    }
+
+    @Test
+    public void isUnCoveredPasswordWithMoreGuessLetters() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('e', 'd', 'k', 't');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("E-EKT--K- ---D --E T-K-"));
+    }
+
+    @Test
+    public void isUnCoveredPasswordWithMoreGuessUpperLetters() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('E', 'd', 'K', 't');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("E-EKT--K- ---D --E T-K-"));
+    }
 }
