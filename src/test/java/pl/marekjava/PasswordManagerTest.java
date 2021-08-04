@@ -103,9 +103,26 @@ public class PasswordManagerTest {
     }
 
     @Test
+    public void isUnCoveredPasswordWithGuessUpperLetter() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = new ArrayList<>();
+        corectGuesses.add('D');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("--------- ---D --- ----"));
+    }
+
+    @Test
     public void isUnCoveredPasswordWithMoreGuessLetters() {
         pm.setCurrentPassword("Elektryka prąd nie tyka");
         List<Character> corectGuesses = Arrays.asList('e', 'd', 'k', 't');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.getObscuredPassword().equals("E-EKT--K- ---D --E T-K-"));
+    }
+
+    @Test
+    public void isUnCoveredPasswordWithMoreGuessUpperLetters() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('E', 'd', 'K', 't');
         pm.setCorrectGuesses(corectGuesses);
         assertTrue(pm.getObscuredPassword().equals("E-EKT--K- ---D --E T-K-"));
     }

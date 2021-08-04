@@ -11,7 +11,8 @@ public class App {
 
     public static void main(String[] args) {
 
-        System.out.println("Witaj w Kole Fortuny\n");
+        System.out.println("Witaj w Kole Fortuny");
+        System.out.println();
 
         int numberOfPlayers = 0;
         try {
@@ -32,11 +33,13 @@ public class App {
     private static void playGame(List<Player> players) {
 
         for (int i = 1; i <= ROUNDS; i++) {
-            System.out.println("\nRozpoczęła się runda " + i);
+            System.out.println();
+            System.out.println("Rozpoczęła się runda " + i);
             String password = pm.getRandomPassword();
 
             for (int j = 0; j < players.size(); j++) {
-                System.out.println("\nTura gracza " + players.get(j));
+                System.out.println();
+                System.out.println("Tura gracza " + players.get(j));
                 System.out.println(pm.getObscuredPassword());
                 String input = scan.nextLine();
                 if (input.length() == 1) {

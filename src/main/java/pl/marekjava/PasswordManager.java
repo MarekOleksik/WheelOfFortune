@@ -85,11 +85,11 @@ public class PasswordManager {
         for (int i = 0; i < currentPassword.length(); i++) {
             char currentChar = currentPassword.toLowerCase().charAt(i);
 
-            if (currentChar >= 65) {
+            if (Character.isLetter(currentChar)) {
                 obscuredPassword.replace(i, i + 1, "-");
             }
             for (Character c : corectGuesses) {
-                if (currentChar == c) {
+                if (currentChar == c || currentChar == c + 32) {
                     obscuredPassword.replace(i, i + 1, String.valueOf(c));
                 }
             }
