@@ -8,6 +8,7 @@ public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
     private static PasswordManager pm = new PasswordManager();
+    private static boolean isRoundContinue;
 
     public static void main(String[] args) {
 
@@ -35,19 +36,30 @@ public class App {
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println();
             System.out.println("Rozpoczęła się runda " + i);
+            isRoundContinue = true;
             String password = pm.getRandomPassword();
-
-            for (int j = 0; j < players.size(); j++) {
-                System.out.println();
-                System.out.println("Tura gracza " + players.get(j));
-                System.out.println(pm.getObscuredPassword());
-                String input = scan.nextLine();
-                if (input.length() == 1) {
-                    guessLetter(password, input);
-                } else {
-                    guessPassword(input);
+            while (isRoundContinue) {
+                for (int j = 0; j < players.size(); j++) {
+                    System.out.println();
+                    System.out.println("Tura gracza " + players.get(j));
+                    System.out.println(pm.getObscuredPassword());
+                    String input = scan.nextLine();
+                    if (input.length() == 1) {
+                        guessLetter(password, input);
+                    } else {
+                        guessPassword(input);
+                    }
+                    if (!isRoundContinue) break;
                 }
+                checkPassword();
             }
+        }
+    }
+
+    private static void checkPassword() {
+        if (pm.checkPassword()) {
+            System.out.println("Hasło odgadnięte");
+            isRoundContinue = false;
         }
     }
 
@@ -55,6 +67,7 @@ public class App {
         System.out.println("Zgaduję hasło");
         if (pm.guessPassword(input)) {
             System.out.println("Hasło odgadnięte");
+            isRoundContinue = false;
         } else {
             System.out.println("Niepoprawne hasło");
         }

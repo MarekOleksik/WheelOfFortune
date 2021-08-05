@@ -126,4 +126,20 @@ public class PasswordManagerTest {
         pm.setCorrectGuesses(corectGuesses);
         assertTrue(pm.getObscuredPassword().equals("E-EKT--K- ---D --E T-K-"));
     }
+
+    @Test
+    public void isCurrentPasswordSameObscuredPassword() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('e', 'd', 'k', 't', 'l', 'r', 'y', 'a', 'p', 'ą', 'n', 'i');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.checkPassword());
+    }
+
+    @Test
+    public void isCurrentPasswordSameObscuredPasswordUpperLetters() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('E', 'd', 'K', 't', 'l', 'R', 'y', 'A', 'p', 'ą', 'N', 'i');
+        pm.setCorrectGuesses(corectGuesses);
+        assertTrue(pm.checkPassword());
+    }
 }
