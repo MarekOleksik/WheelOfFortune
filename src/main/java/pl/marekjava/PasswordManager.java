@@ -100,4 +100,8 @@ public class PasswordManager {
     public void setCorrectGuesses(List<Character> correctGuesses) {
         this.corectGuesses = correctGuesses;
     }
+
+    public boolean checkPassword() {
+        return currentPassword.equalsIgnoreCase(getObscuredPassword());
+    }
 }

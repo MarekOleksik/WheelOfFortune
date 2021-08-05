@@ -31,32 +31,48 @@ public class App {
     }
 
     private static void playGame(List<Player> players) {
+        boolean isRoundContinue;
 
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println();
             System.out.println("Rozpoczęła się runda " + i);
+            isRoundContinue = true;
             String password = pm.getRandomPassword();
-
-            for (int j = 0; j < players.size(); j++) {
-                System.out.println();
-                System.out.println("Tura gracza " + players.get(j));
-                System.out.println(pm.getObscuredPassword());
-                String input = scan.nextLine();
-                if (input.length() == 1) {
-                    guessLetter(password, input);
-                } else {
-                    guessPassword(input);
+            while (isRoundContinue) {
+                for (int j = 0; j < players.size(); j++) {
+                    System.out.println();
+                    System.out.println("Tura gracza " + players.get(j));
+                    System.out.println(pm.getObscuredPassword());
+                    String input = scan.nextLine();
+                    if (input.length() == 1) {
+                        guessLetter(password, input);
+                    } else {
+                        isRoundContinue = !guessPassword(input);
+                        if (!isRoundContinue) break;
+                    }
+                    isRoundContinue = !checkPassword();
                 }
             }
         }
     }
 
-    private static void guessPassword(String input) {
+    private static boolean checkPassword() {
+        if (pm.checkPassword()) {
+            System.out.println("Hasło odgadnięte");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean guessPassword(String input) {
         System.out.println("Zgaduję hasło");
         if (pm.guessPassword(input)) {
             System.out.println("Hasło odgadnięte");
+            return true;
         } else {
             System.out.println("Niepoprawne hasło");
+            return false;
         }
     }
 
