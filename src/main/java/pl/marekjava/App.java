@@ -8,7 +8,6 @@ public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
     private static PasswordManager pm = new PasswordManager();
-    private static boolean isRoundContinue;
 
     public static void main(String[] args) {
 
@@ -32,6 +31,7 @@ public class App {
     }
 
     private static void playGame(List<Player> players) {
+        boolean isRoundContinue;
 
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println();
@@ -47,29 +47,32 @@ public class App {
                     if (input.length() == 1) {
                         guessLetter(password, input);
                     } else {
-                        guessPassword(input);
+                        isRoundContinue = !guessPassword(input);
+                        if (!isRoundContinue) break;
                     }
-                    if (!isRoundContinue) break;
+                    isRoundContinue = !checkPassword();
                 }
-                checkPassword();
             }
         }
     }
 
-    private static void checkPassword() {
+    private static boolean checkPassword() {
         if (pm.checkPassword()) {
             System.out.println("Hasło odgadnięte");
-            isRoundContinue = false;
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private static void guessPassword(String input) {
+    private static boolean guessPassword(String input) {
         System.out.println("Zgaduję hasło");
         if (pm.guessPassword(input)) {
             System.out.println("Hasło odgadnięte");
-            isRoundContinue = false;
+            return true;
         } else {
             System.out.println("Niepoprawne hasło");
+            return false;
         }
     }
 

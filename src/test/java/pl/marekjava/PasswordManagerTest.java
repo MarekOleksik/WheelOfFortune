@@ -142,4 +142,12 @@ public class PasswordManagerTest {
         pm.setCorrectGuesses(corectGuesses);
         assertTrue(pm.checkPassword());
     }
+
+    @Test
+    public void isCurrentPasswordNotSameObscuredPassword() {
+        pm.setCurrentPassword("Elektryka prąd nie tyka");
+        List<Character> corectGuesses = Arrays.asList('c', 'o', 'd', 'w', 'i', 'e', 'g', 'ł', 'y', 't', 'n', 'j', 'a');
+        pm.setCorrectGuesses(corectGuesses);
+        assertFalse(pm.checkPassword());
+    }
 }
