@@ -39,4 +39,12 @@ public class PlayerTest {
             Player marek = new Player(null);
         });
     }
+
+    @Test
+    public void arePointsAddedCorrectly() {
+        Player marek = new Player("Marek");
+        marek.setPoints(10);
+        marek.addPoints(20);
+        assertTrue(marek.getPoints() == 30);
+    }
 }

@@ -40,15 +40,15 @@ public class App {
             isRoundContinue = true;
             String password = pm.getRandomPassword();
             while (isRoundContinue) {
-                for (int j = 0; j < players.size(); j++) {
+                for (Player player : players) {
                     System.out.println();
-                    System.out.println("Tura gracza " + players.get(j));
+                    System.out.println("Tura gracza " + player);
                     System.out.println(pm.getObscuredPassword());
                     String input = scan.nextLine();
                     if (input.length() == 1) {
-                        guessLetter(password, input, players.get(j));
+                        guessLetter(password, input, player);
                     } else {
-                        isRoundContinue = !guessPassword(input, players.get(j));
+                        isRoundContinue = !guessPassword(input, player);
                         if (!isRoundContinue) break;
                     }
                     isRoundContinue = !checkPassword();
