@@ -40,33 +40,27 @@ public class App {
             isRoundContinue = true;
             String password = pm.getRandomPassword();
             while (isRoundContinue) {
-                isRoundContinue = playerTurn(players, sumOfPoints, password);
+                for (Player player : players) {
+                    System.out.println();
+                    System.out.println("Tura gracza " + player);
+                    System.out.println(pm.getObscuredPassword());
+                    String input = scan.nextLine();
+                    if (input.length() == 1) {
+                        guessLetter(password, input, player);
+                    } else {
+                        isRoundContinue = !guessPassword(input, player);
+                    }
+                    sumOfPoints.put(player, player.getPoints());
+                    if (!isRoundContinue) break;
+                    isRoundContinue = !checkPassword();
+                    if (!isRoundContinue) break;
+                }
             }
         }
 
         Map<Player, Integer> newMapSortedByValue = getReversedSortedMap(sumOfPoints);
         System.out.println();
         printResults(newMapSortedByValue);
-    }
-
-    private static boolean playerTurn(List<Player> players, Map<Player, Integer> sumOfPoints, String password) {
-        boolean isRoundContinue = true;
-        for (Player player : players) {
-            System.out.println();
-            System.out.println("Tura gracza " + player);
-            System.out.println(pm.getObscuredPassword());
-            String input = scan.nextLine();
-            if (input.length() == 1) {
-                guessLetter(password, input, player);
-            } else {
-                isRoundContinue = !guessPassword(input, player);
-            }
-            sumOfPoints.put(player, player.getPoints());
-            if (!isRoundContinue) break;
-            isRoundContinue = !checkPassword();
-            if (!isRoundContinue) break;
-        }
-        return isRoundContinue;
     }
 
     private static void printResults(Map<Player, Integer> newMapSortedByValue) {
