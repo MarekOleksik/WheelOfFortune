@@ -1,8 +1,7 @@
 package pl.marekjava;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class App {
     private static Scanner scan = new Scanner(System.in);
@@ -33,6 +32,7 @@ public class App {
 
     private static void playGame(List<Player> players) {
         boolean isRoundContinue;
+        Map<Player, Integer> sumOfPoints = new HashMap<>();
 
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println();
@@ -40,21 +40,46 @@ public class App {
             isRoundContinue = true;
             String password = pm.getRandomPassword();
             while (isRoundContinue) {
-                for (Player player : players) {
-                    System.out.println();
-                    System.out.println("Tura gracza " + player);
-                    System.out.println(pm.getObscuredPassword());
-                    String input = scan.nextLine();
-                    if (input.length() == 1) {
-                        guessLetter(password, input, player);
-                    } else {
-                        isRoundContinue = !guessPassword(input, player);
-                        if (!isRoundContinue) break;
-                    }
-                    isRoundContinue = !checkPassword();
-                }
+                isRoundContinue = playerTurn(players, sumOfPoints, password);
             }
         }
+
+        Map<Player, Integer> newMapSortedByValue = getReversedSortedMap(sumOfPoints);
+        System.out.println();
+        printResults(newMapSortedByValue);
+    }
+
+    private static boolean playerTurn(List<Player> players, Map<Player, Integer> sumOfPoints, String password) {
+        boolean isRoundContinue = true;
+        for (Player player : players) {
+            System.out.println();
+            System.out.println("Tura gracza " + player);
+            System.out.println(pm.getObscuredPassword());
+            String input = scan.nextLine();
+            if (input.length() == 1) {
+                guessLetter(password, input, player);
+            } else {
+                isRoundContinue = !guessPassword(input, player);
+            }
+            sumOfPoints.put(player, player.getPoints());
+            if (!isRoundContinue) break;
+            isRoundContinue = !checkPassword();
+            if (!isRoundContinue) break;
+        }
+        return isRoundContinue;
+    }
+
+    private static void printResults(Map<Player, Integer> newMapSortedByValue) {
+        newMapSortedByValue.forEach((k, v) -> {
+            System.out.println(k + " : " + v + " points.");
+        });
+    }
+
+    private static Map<Player, Integer> getReversedSortedMap(Map<Player, Integer> sumOfPoints) {
+        Map<Player, Integer> newMapSortedByValue = sumOfPoints.entrySet().stream()
+                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        return newMapSortedByValue;
     }
 
     private static boolean checkPassword() {
