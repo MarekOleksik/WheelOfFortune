@@ -8,6 +8,7 @@ public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
     private static PasswordManager pm = new PasswordManager();
+    final static int POINTS_PER_GUESS = 10;
 
     public static void main(String[] args) {
 
@@ -39,15 +40,15 @@ public class App {
             isRoundContinue = true;
             String password = pm.getRandomPassword();
             while (isRoundContinue) {
-                for (int j = 0; j < players.size(); j++) {
+                for (Player player : players) {
                     System.out.println();
-                    System.out.println("Tura gracza " + players.get(j));
+                    System.out.println("Tura gracza " + player);
                     System.out.println(pm.getObscuredPassword());
                     String input = scan.nextLine();
                     if (input.length() == 1) {
-                        guessLetter(password, input);
+                        guessLetter(password, input, player);
                     } else {
-                        isRoundContinue = !guessPassword(input);
+                        isRoundContinue = !guessPassword(input, player);
                         if (!isRoundContinue) break;
                     }
                     isRoundContinue = !checkPassword();
@@ -65,10 +66,18 @@ public class App {
         }
     }
 
-    private static boolean guessPassword(String input) {
+    private static boolean guessPassword(String input, Player player) {
         System.out.println("Zgaduję hasło");
         if (pm.guessPassword(input)) {
             System.out.println("Hasło odgadnięte");
+            char[] obscuredPassword = pm.getObscuredPassword().toCharArray();
+            int remainingLetters = 0;
+            for (char c : obscuredPassword) {
+                if (c == '-') {
+                    remainingLetters++;
+                }
+            }
+            player.addPoints(remainingLetters);
             return true;
         } else {
             System.out.println("Niepoprawne hasło");
@@ -76,11 +85,12 @@ public class App {
         }
     }
 
-    private static void guessLetter(String password, String input) {
+    private static void guessLetter(String password, String input, Player player) {
         System.out.println("Zgaduję literę");
-        int countOfLetters = pm.guessLetter(input.charAt(0));
         if (password.toLowerCase().contains(input.toLowerCase())) {
             System.out.println("Zgadnięta");
+            int countOfLetters = pm.guessLetter(input.charAt(0));
+            player.addPoints(countOfLetters * POINTS_PER_GUESS);
         } else {
             System.out.println("Taka litera nie występuje w haśle");
         }

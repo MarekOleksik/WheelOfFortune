@@ -2,6 +2,7 @@ package pl.marekjava;
 
 public class Player {
     private String name;
+    private int points;
 
     public Player(String name) {
         try {
@@ -12,6 +13,7 @@ public class Player {
             throw new IllegalArgumentException("Null value is passed.");
         }
         this.name = name;
+        this.points = 0;
     }
 
     @Override
@@ -21,5 +23,17 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }
