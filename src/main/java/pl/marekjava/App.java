@@ -1,7 +1,6 @@
 package pl.marekjava;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class App {
     private static Scanner scan = new Scanner(System.in);
@@ -58,22 +57,13 @@ public class App {
             }
         }
 
-        Map<Player, Integer> newMapSortedByValue = getReversedSortedMap(sumOfPoints);
+        Set<Map.Entry<Player, Integer>> set = sumOfPoints.entrySet();
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(set);
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
         System.out.println();
-        printResults(newMapSortedByValue);
-    }
-
-    private static void printResults(Map<Player, Integer> newMapSortedByValue) {
-        newMapSortedByValue.forEach((k, v) -> {
-            System.out.println(k + " : " + v + " points.");
-        });
-    }
-
-    private static Map<Player, Integer> getReversedSortedMap(Map<Player, Integer> sumOfPoints) {
-        Map<Player, Integer> newMapSortedByValue = sumOfPoints.entrySet().stream()
-                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-        return newMapSortedByValue;
+        for (Map.Entry<Player, Integer> entry : list) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " points.");
+        }
     }
 
     private static boolean checkPassword() {
