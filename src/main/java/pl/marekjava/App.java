@@ -1,8 +1,6 @@
 package pl.marekjava;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
     private static Scanner scan = new Scanner(System.in);
@@ -33,6 +31,7 @@ public class App {
 
     private static void playGame(List<Player> players) {
         boolean isRoundContinue;
+        Map<Player, Integer> sumOfPoints = new HashMap<>();
 
         for (int i = 1; i <= ROUNDS; i++) {
             System.out.println();
@@ -49,11 +48,21 @@ public class App {
                         guessLetter(password, input, player);
                     } else {
                         isRoundContinue = !guessPassword(input, player);
-                        if (!isRoundContinue) break;
                     }
+                    sumOfPoints.put(player, player.getPoints());
+                    if (!isRoundContinue) break;
                     isRoundContinue = !checkPassword();
+                    if (!isRoundContinue) break;
                 }
             }
+        }
+
+        Set<Map.Entry<Player, Integer>> set = sumOfPoints.entrySet();
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(set);
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
+        System.out.println();
+        for (Map.Entry<Player, Integer> entry : list) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " points.");
         }
     }
 
