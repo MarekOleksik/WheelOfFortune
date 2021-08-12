@@ -2,8 +2,7 @@ package pl.marekjava;
 
 
 import javax.json.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.util.*;
 
 public class PasswordManager {
@@ -14,13 +13,11 @@ public class PasswordManager {
 
     public PasswordManager() {
 
-        JsonReader jsonReader = null;
-        try {
-            jsonReader = Json.createReader(new FileReader("src\\main\\resources\\passwords.json"));
-        } catch (FileNotFoundException e) {
-            System.out.println("Nie znaleziono pliku Json z hasłami");
-            e.printStackTrace();
-        }
+        App obj = new App();
+        InputStream inputStream = obj.getClass()
+                .getClassLoader()
+                .getResourceAsStream("passwords.json");
+        JsonReader jsonReader = Json.createReader(inputStream);
         JsonObject passJson = jsonReader.readObject();
         JsonArray passwordsJson = passJson.getJsonArray("passwords");
         for (JsonValue j : passwordsJson) {
@@ -115,5 +112,9 @@ public class PasswordManager {
 
     public boolean checkPassword() {
         return currentPassword.equalsIgnoreCase(getObscuredPassword());
+    }
+
+    public List<Character> getCorrectGuesses() {
+        return correctGuesses;
     }
 }
