@@ -62,7 +62,7 @@ public class App {
         Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
         System.out.println();
         for (Map.Entry<Player, Integer> entry : list) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " points.");
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " punktów.");
         }
     }
 
