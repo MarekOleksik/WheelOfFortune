@@ -62,7 +62,7 @@ public class App {
         Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
         System.out.println();
         for (Map.Entry<Player, Integer> entry : list) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " points.");
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " punktów.");
         }
     }
 
@@ -97,9 +97,13 @@ public class App {
     private static void guessLetter(String password, String input, Player player) {
         System.out.println("Zgaduję literę");
         if (password.toLowerCase().contains(input.toLowerCase())) {
-            System.out.println("Zgadnięta");
-            int countOfLetters = pm.guessLetter(input.charAt(0));
-            player.addPoints(countOfLetters * POINTS_PER_GUESS);
+            if (!pm.getCorrectGuesses().contains(input.charAt(0))) {
+                int countOfLetters = pm.guessLetter(input.charAt(0));
+                player.addPoints(countOfLetters * POINTS_PER_GUESS);
+                System.out.println("Zgadnięta");
+            } else {
+                System.out.println("Litera już została podana.");
+            }
         } else {
             System.out.println("Taka litera nie występuje w haśle");
         }

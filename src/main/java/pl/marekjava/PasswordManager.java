@@ -1,20 +1,29 @@
 package pl.marekjava;
 
+
+import javax.json.*;
+import java.io.InputStream;
 import java.util.*;
 
 public class PasswordManager {
     private List<String> passwords = new ArrayList<>();
     private Map<String, Boolean> usedPasswords = new HashMap<>();
     private String currentPassword;
-    private List<Character> corectGuesses = new ArrayList<>();
+    private List<Character> correctGuesses = new ArrayList<>();
 
     public PasswordManager() {
-        passwords.add("Apetyt rośnie w miarę jedzenia");
-        passwords.add("Co dwie głowy, to nie jedna");
-        passwords.add("Cwiczenie czyni mistrza");
-        passwords.add("Darowanemu koniowi w zęby się nie zagląda");
-        passwords.add("Diabeł tkwi w szczegółach");
-        passwords.add("Elektryka prąd nie tyka");
+
+        App obj = new App();
+        InputStream inputStream = obj.getClass()
+                .getClassLoader()
+                .getResourceAsStream("passwords.json");
+        JsonReader jsonReader = Json.createReader(inputStream);
+        JsonObject passJson = jsonReader.readObject();
+        JsonArray passwordsJson = passJson.getJsonArray("passwords");
+        for (JsonValue j : passwordsJson) {
+            String password = j.toString().replace("\"", "");
+            passwords.add(password);
+        }
 
         for (int i = 0; i < passwords.size(); i++) {
             usedPasswords.put(passwords.get(i), false);
@@ -40,7 +49,7 @@ public class PasswordManager {
         }
         usedPasswords.put(randomPassword, true);
         currentPassword = randomPassword;
-        corectGuesses.clear();
+        correctGuesses.clear();
         return randomPassword;
     }
 
@@ -66,14 +75,14 @@ public class PasswordManager {
             }
         }
         if (currentPassword.toLowerCase().contains(String.valueOf(letter))) {
-            corectGuesses.add(letter);
+            correctGuesses.add(letter);
         }
         return counter;
     }
 
     protected void setCurrentPassword(String currentPassword) {
         this.currentPassword = currentPassword;
-        corectGuesses.clear();
+        correctGuesses.clear();
     }
 
     public boolean guessPassword(String password) {
@@ -88,7 +97,7 @@ public class PasswordManager {
             if (Character.isLetter(currentChar)) {
                 obscuredPassword.replace(i, i + 1, "-");
             }
-            for (Character c : corectGuesses) {
+            for (Character c : correctGuesses) {
                 if (currentChar == c || currentChar == c + 32) {
                     obscuredPassword.replace(i, i + 1, String.valueOf(c));
                 }
@@ -98,10 +107,14 @@ public class PasswordManager {
     }
 
     public void setCorrectGuesses(List<Character> correctGuesses) {
-        this.corectGuesses = correctGuesses;
+        this.correctGuesses = correctGuesses;
     }
 
     public boolean checkPassword() {
         return currentPassword.equalsIgnoreCase(getObscuredPassword());
+    }
+
+    public List<Character> getCorrectGuesses() {
+        return correctGuesses;
     }
 }
