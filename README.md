@@ -1,5 +1,5 @@
 # WheelOfFortune
-Projekt z mentorem - Paweł Ćwik
+Projekt z mentorem - Paweł Ćwik.
 Popularna gra Koło Fortuny. 
 Ilośc graczy od 1 do 4.
 Gra polega na odgadywaniu liter w losowo wybranym haśle.
