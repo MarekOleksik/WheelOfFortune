@@ -1,12 +1,17 @@
 package pl.marekjava;
 
 import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class App {
     private static Scanner scan = new Scanner(System.in);
     final static int ROUNDS = 4;
     private static PasswordManager pm = new PasswordManager();
     final static int POINTS_PER_GUESS = 10;
+    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("thePersistenceUnit");
+    private static EntityManager em = factory.createEntityManager();
 
     public static void main(String[] args) {
 
