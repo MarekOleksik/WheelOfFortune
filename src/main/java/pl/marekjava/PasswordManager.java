@@ -10,6 +10,7 @@ public class PasswordManager {
     private Map<String, Boolean> usedPasswords = new HashMap<>();
     private String currentPassword;
     private List<Character> correctGuesses = new ArrayList<>();
+    private PasswordsRepository repo = new PasswordsRepository();
 
     public PasswordManager() {
 
@@ -20,9 +21,15 @@ public class PasswordManager {
         JsonReader jsonReader = Json.createReader(inputStream);
         JsonObject passJson = jsonReader.readObject();
         JsonArray passwordsJson = passJson.getJsonArray("passwords");
+        int countOfPasswords = 0;
         for (JsonValue j : passwordsJson) {
             String password = j.toString().replace("\"", "");
-            passwords.add(password);
+            repo.createNewPassword(password);
+            countOfPasswords++;
+        }
+
+        for (long j = 1; j <= countOfPasswords; j++) {
+            passwords.add(repo.findById(j).toString());
         }
 
         for (int i = 0; i < passwords.size(); i++) {
